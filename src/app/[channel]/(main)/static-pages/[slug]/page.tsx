@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
 import { executeGraphQL } from "@/lib/graphql";
-import { PageDetailsBySlugDocument } from "@/gql/graphql";
+import { PageGetBySlugDocument } from "@/gql/graphql";
 
 // Type for the params
 type StaticPageParams = {
@@ -13,7 +13,7 @@ export const generateMetadata = async ({ params }: { params: StaticPageParams })
   const { slug, channel } = params;
 
   try {
-    const { page } = await executeGraphQL(PageDetailsBySlugDocument, {
+    const { page } = await executeGraphQL(PageGetBySlugDocument, {
       variables: { slug, channel },
       revalidate: 60 * 60,
     });
@@ -43,7 +43,7 @@ export default async function StaticPage({ params }: { params: StaticPageParams 
 
   let pageData;
   try {
-    const { page } = await executeGraphQL(PageDetailsBySlugDocument, {
+    const { page } = await executeGraphQL(PageGetBySlugDocument, {
       variables: { slug, channel },
       revalidate: 60 * 60,
     });
