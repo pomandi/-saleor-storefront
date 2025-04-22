@@ -180,7 +180,7 @@ export default async function Page({
 				}}
 			/>
 			<form className="grid gap-2 sm:grid-cols-2 lg:grid-cols-8" action={addItem}>
-				<div className="md:col-span-1 lg:col-span-5">
+				<div className="relative aspect-square sm:col-span-1 md:col-span-1 lg:col-span-5">
 					{firstImage && (
 						<ProductImageWrapper
 							priority={true}
