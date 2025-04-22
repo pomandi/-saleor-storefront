@@ -1,68 +1,67 @@
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
-import fs from "fs";
-import path from "path";
-
-const PAGE_TITLES = {
-  'about-us': 'About Us - POMANDI Luxury',
-  'contact-us': 'Contact Us - POMANDI Luxury',
-  'privacy-policy': 'Privacy Policy - POMANDI Luxury',
-  'return-policy': 'Return Policy - POMANDI Luxury',
-  'shipping-information': 'Shipping Information - POMANDI Luxury'
-};
+import { executeGraphQL } from "@/lib/graphql";
+import { PageDetailsBySlugDocument } from "@/gql/graphql";
 
 // Type for the params
 type StaticPageParams = {
   slug: string;
+  channel: string;
 };
 
 export const generateMetadata = async ({ params }: { params: StaticPageParams }): Promise<Metadata> => {
-  const { slug } = params;
-  
-  const title = PAGE_TITLES[slug as keyof typeof PAGE_TITLES] || 'POMANDI Luxury';
-  
-  return {
-    title,
-    description: `${title} - Custom tailored suits and luxury menswear`,
-  };
+  const { slug, channel } = params;
+
+  try {
+    const { page } = await executeGraphQL(PageDetailsBySlugDocument, {
+      variables: { slug, channel },
+      revalidate: 60 * 60,
+    });
+
+    if (!page) {
+      return {
+        title: "Page Not Found",
+        description: "The page you are looking for does not exist.",
+      };
+    }
+
+    return {
+      title: page.seoTitle || page.title,
+      description: page.seoDescription || undefined,
+    };
+  } catch (error) {
+    console.error("Error fetching metadata for static page:", error);
+    return {
+      title: "Error",
+      description: "Could not load page information.",
+    };
+  }
 };
 
 export default async function StaticPage({ params }: { params: StaticPageParams }) {
-  const { slug } = params;
-  
-  // Define valid pages
-  const validPages = [
-    'about-us',
-    'contact-us',
-    'privacy-policy',
-    'return-policy',
-    'shipping-information'
-  ];
-  
-  // Check if the requested page exists
-  if (!validPages.includes(slug)) {
-    notFound();
-  }
-  
-  // Path to the HTML file
-  const filePath = path.join(process.cwd(), 'pages-content', `${slug}.html`);
-  
-  // Try to read the HTML file
-  let html = '';
+  const { slug, channel } = params;
+
+  let pageData;
   try {
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    
-    // Extract just the body content from the HTML (without the body tags)
-    const bodyMatch = fileContent.match(/<body>([\s\S]*)<\/body>/i);
-    html = bodyMatch ? bodyMatch[1] : fileContent;
+    const { page } = await executeGraphQL(PageDetailsBySlugDocument, {
+      variables: { slug, channel },
+      revalidate: 60 * 60,
+    });
+    pageData = page;
   } catch (error) {
-    console.error(`Error reading file ${filePath}:`, error);
+    console.error(`Error fetching page content for slug ${slug}:`, error);
+  }
+
+  if (!pageData) {
     notFound();
   }
-  
+
+  const htmlContent = pageData.content || "";
+
   return (
-    <div className="mx-auto max-w-7xl p-8 pb-16">
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+    <div className="prose mx-auto max-w-7xl p-8 pb-16">
+      <h1>{pageData.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
     </div>
   );
 } 
