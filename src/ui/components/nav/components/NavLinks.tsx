@@ -9,12 +9,6 @@ export const NavLinks = async ({ channel }: { channel: string }) => {
 		revalidate: 60 * 60 * 24,
 	});
 
-	// Define static pages
-	const staticPages = [
-		{ name: "About Us", slug: "about-us" },
-		{ name: "Contact", slug: "contact-us" },
-	];
-
 	return (
 		<>
 			<NavLink href="/products">All</NavLink>
@@ -49,13 +43,6 @@ export const NavLinks = async ({ channel }: { channel: string }) => {
 				}
 				return null;
 			})}
-			
-			{/* Add static pages to the navigation */}
-			{staticPages.map((page) => (
-				<NavLink key={page.slug} href={`/static-pages/${page.slug}`}>
-					{page.name}
-				</NavLink>
-			))}
 		</>
 	);
 };
