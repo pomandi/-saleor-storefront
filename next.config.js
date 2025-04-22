@@ -13,16 +13,6 @@ const nextConfig = {
 		unoptimized: true,
 		domains: ['images.unsplash.com'],
 	},
-	experimental: {
-		serverActions: true,
-	},
-	webpack: (config) => {
-		config.module.rules.push({
-			test: /\.css$/,
-			use: ['style-loader', 'css-loader'],
-		});
-		return config;
-	},
 	// used in the Dockerfile
 	output:
 		process.env.NEXT_OUTPUT === "standalone"
