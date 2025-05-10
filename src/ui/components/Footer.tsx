@@ -82,17 +82,9 @@ export async function Footer({ channel }: { channel: string }) {
 				)}
 
 				<div className="flex flex-col items-center border-t border-neutral-300 py-10 sm:flex-row sm:justify-between">
-					<p className="text-sm text-neutral-500">Copyright &copy; {currentYear} POMANDI Luxury. All rights reserved.</p>
-					
-					<p className="flex gap-1 text-sm text-neutral-500">
-						Powered by{" "}
-						<Link target={"_blank"} href={"https://saleor.io/"}>
-							Saleor
-						</Link>{" "}
-						<Link href={"https://github.com/saleor/saleor"} target={"_blank"} className={"opacity-30"}>
-							<Image alt="Saleor github repository" height={20} width={20} src={"/github-mark.svg"} />
-						</Link>
-					</p>
+					<p className="text-sm text-neutral-500">Copyright &copy; {currentYear} premiummenssuits Luxury. All rights reserved.</p>
+					<p className="text-sm text-neutral-500">Wettelijke conformiteitsgarantie:
+De wettelijke conformiteitsgarantie van 2 jaar voor consumptiegoederen is van toepassing.</p>
 				</div>
 			</div>
 		</footer>
