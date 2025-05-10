@@ -23,18 +23,18 @@ export function ImageGallery() {
 	const slides: SlideType[] = [
 		{
 			image: '/1.jpg',
-			title: 'Özel Koleksiyon',
-			subtitle: 'En kaliteli el işçiliğiyle üretilmiş özel tasarım takım elbiseler'
+			title: 'Special Collection',
+			subtitle: 'Specially designed suits crafted with the highest quality handwork'
 		},
 		{
 			image: '/2.jpg',
-			title: 'Sezon İndirimi',
-			subtitle: 'Seçili ürünlerde %50\'ye varan indirimler'
+			title: 'Season Sale',
+			subtitle: 'Up to 50% discount on selected products'
 		},
 		{
 			image: '/3.jpg',
-			title: 'Premium Kalite',
-			subtitle: 'Kaliteden ödün vermeden üretilen takım elbiselerimiz'
+			title: 'Premium Quality',
+			subtitle: 'Our suits are produced without compromising on quality'
 		}
 	];
 
@@ -147,7 +147,7 @@ export function ImageGallery() {
 								<button className="bg-white hover:bg-gray-100 text-gray-900 px-6 py-3 rounded-md font-medium
 									transition-all duration-300 transform hover:scale-105"
 								>
-									Koleksiyonu Gör
+									View Collection
 								</button>
 							</div>
 						</div>
