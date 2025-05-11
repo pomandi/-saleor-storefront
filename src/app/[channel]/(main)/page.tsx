@@ -47,6 +47,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 
 			{/* Slider Section */}
 			<ImageGallery />
+			<h1>Test Text</h1>
 
 			{/* Featured Collection */}
 			{products.length > 0 ? (
